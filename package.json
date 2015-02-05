@@ -1,0 +1,16 @@
+{
+  "name": "helm-control",
+  "version": "0.1.0",
+  "description": "A task runner built on command line interfaces",
+  "main": "index.js",
+  "keywords": [
+    "Task",
+    "Runner"
+  ],
+  "author": "Nael Alismail",
+  "license": "ISC",
+  "dependencies": {
+    "gaze": "^0.6.4",
+    "orchestrator": "^0.3.7"
+  }
+}
