@@ -1,3 +1,4 @@
+'use strict';
 // var helm = require('helm-control');
 // var nodemon = require('nodemon');
 
@@ -25,7 +26,8 @@
 
 
 var gaze = require('gaze');
-var orchestrator = require('orchestrator');
+var Orchestrator = require('orchestrator');
+var orchestrator = new Orchestrator();
 var exec = require('child_process').exec;
 
 function command(name, dependencies, command){
@@ -54,7 +56,7 @@ function execute(commands){
 	})
 }
 
-function standby(path, commands){
+function standby(path, commands, cb){
 	// watch to see if files change, and execute
 	gaze(path, function(error, watcher){
 		if (error) {
@@ -64,6 +66,7 @@ function standby(path, commands){
 		this.on('all', function(evt, filepath){
 			execute(commands);
 		});
+		if (cb) cb();
 	});
 }
 
