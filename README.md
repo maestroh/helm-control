@@ -3,7 +3,7 @@
 Task automation for command line tools mixed in with code.
 
 ### Example
-
+```
 var helm = require('helm-control');
 var nodemon = require('nodemon');
 
@@ -28,3 +28,4 @@ helm.command('app',
 helm.standby('**/*', ['bundle'], function(){console.log('done bundling!');});
 
 helm.engage('app');
+```
