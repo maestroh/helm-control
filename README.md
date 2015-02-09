@@ -25,5 +25,6 @@ helm.command('app',
 
 helm.engage(['app']);
 
-helm.standby('./app/**/*.js', ['bundle']);
+// watch all files and folders except items in public
+helm.standby(['**/*', '!./public/**/*'], ['bundle']);
 ```
