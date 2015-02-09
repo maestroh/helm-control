@@ -2,30 +2,28 @@
 
 Task automation for command line tools mixed in with code.
 
-### Example
+#### Example
 ```
 var helm = require('helm-control');
 var nodemon = require('nodemon');
 
-helm.command('testing', 'mocha test', ['linting']);
-helm.command('linting', 'jshint app.js');
-helm.command('bundle', 'webpack app.js', ['testing']);
-helm.command('app', 
-							function(){
-								nodemon({ script: 'app.js' })
-								.on('start', function () {
-								  console.log('nodemon started');
-								})
-								.on('restart', function(){
-									helm.execute('bundle');
-								})
-								.on('crash', function () {
-								  console.log('script crashed for some reason');
-								});
-							}
-							, ['bundle']);
+helm.command('lint', [], 'jshint **/*.js');
+helm.command('test', ['lint'], 'mocha --reporter dot test.js');
+helm.command('bundle', ['test'], 'webpack');
+helm.command('app',
+							['bundle'],
+              function(){
+                  nodemon({ script: 'app.js' })
+                  .on('start', function () {
+                    console.log('nodemon started');
+                  })
+                  .on('crash', function () {
+                    console.log('script crashed for some reason');
+                  });
+              }
+              );
 
-helm.standby('**/*', ['bundle'], function(){console.log('done bundling!');});
+helm.engage(['app']);
 
-helm.engage('app');
+helm.standby('./app/**/*.js', ['bundle']);
 ```
