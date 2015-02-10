@@ -1,8 +1,8 @@
-##Helm Control 
+## Helm Control 
 
 Task automation for command line tools mixed in with code.
 
-####Features
+#### Features
 * Write tasks for both the command line and code
 * Tasks are run asynchronously unless dependencies are specified
 * Very simple API
@@ -10,9 +10,9 @@ Task automation for command line tools mixed in with code.
 * No need for plugin documentation either
 * The only task runner that makes you feel like a starship captain
 
-####Documentation
+#### Documentation
 
-#####helm.command(command_name, dependencies, command_line_string)
+##### helm.command(command_name, dependencies, command_line_string)
 
 Add commands that can be executed later. 
 
@@ -22,14 +22,14 @@ Add commands that can be executed later.
 
 *command_line_string:* The CLI to execute complete with arguments.
 
-#####helm.command(command_name, dependencies, function)
+##### helm.command(command_name, dependencies, function)
 Same as the previous helm.command, but accepts a function instead of a command line string.
 
-#####helm.engage(commands)
+##### helm.engage(commands)
 Executes the commands. Send in a single command or an array of commands.
 
 
-#####helm.standby(watch_paths, commands, callback)
+##### helm.standby(watch_paths, commands, callback)
 Watches the paths defined and reruns the commands listed.
 
 *watch_paths:* An array of paths to watch. Add an '!' before the path to exclude it. 
@@ -38,15 +38,15 @@ Watches the paths defined and reruns the commands listed.
 
 *callback:* The callback executes after the commands have executed.
 
-####Usage
+#### Usage
 
-#####Running Helm
+##### Running Helm
 There's no need for a command line interface to run Helm. Just create a config file with the command definitions and run it using node.
 
 `node helm.control.js`
 
 
-#####Example
+##### Example
 ```
 var helm = require('helm-control');
 var nodemon = require('nodemon');
