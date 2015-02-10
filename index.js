@@ -54,7 +54,6 @@ function engage(commands){
 
 module.exports = {
 	command: command,
-	execute: execute,
 	standby: standby,
 	engage: engage
 }
