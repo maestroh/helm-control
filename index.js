@@ -4,10 +4,12 @@ var gaze = require('gaze');
 var Orchestrator = require('orchestrator');
 var orchestrator = new Orchestrator();
 var exec = require('child_process').exec;
+var chokidar = require('chokidar');
+
+
 
 function command(name, dependencies, command){
 	var fn = function(cb){
-			console.log(name + ' ' + 'has started.');
 			if(typeof(command) !== 'function'){
 					exec(command, function (error, stdout, stderr) {
 						console.log(stdout);
@@ -15,12 +17,10 @@ function command(name, dependencies, command){
 				    if (error !== null) {
 				      console.log('Command failed: ' + error);
 				    }
-						console.log(name + ' ' + 'has finished.');
 						cb(error);
 					});
 			}else{
 				command();
-				console.log(name + ' ' + 'has finished.');
 				cb();
 			}
 		}
@@ -36,16 +36,32 @@ function execute(commands){
 
 function standby(path, commands, cb){
 	// watch to see if files change, and execute
-	gaze(path, function(error, watcher){
-		if (error) {
-			console.error(error);
-			return;
-		};
-		this.on('all', function(evt, filepath){
-			execute(commands);
-		});
-		if (cb) cb();
+	// gaze(path, function(error, watcher){
+	// 	if (error) {
+	// 		console.error(error);
+	// 		return;
+	// 	};
+	// 	this.on('all', function(evt, filepath){
+	// 		execute(commands);
+	// 	});
+	// 	if (cb) cb();
+	// });
+
+	var watcher = chokidar.watch(path, {
+	  ignored: /[\/\\]\./, 
+	  persistent: true,
+	  ignoreInitial: true,
+	  alwaysState: true
 	});
+
+	watcher
+		.on('all', 
+			function(e,p){
+				console.log(e + ' ' + p);
+				execute(commands);
+			})
+		.on('ready', function(p){if(cb) cb();});
+	
 }
 
 function engage(commands){

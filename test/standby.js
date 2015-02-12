@@ -5,7 +5,6 @@ var fs = require('fs');
 
 describe('file changed', function(){
 	beforeEach(function(){
-		fs.writeFile('./test/file.js', 'w');
 	});
 	
 	it('execute commands on stand by', function(done){
@@ -13,12 +12,13 @@ describe('file changed', function(){
 		helm.command('changingfile', [], function(){
 				eventsRaised++;
 				console.log(eventsRaised);
-				if (eventsRaised === 2) done();
+				if (eventsRaised === 3) done();
 		});
 
-		helm.standby('**/*', ['changingfile'], function(){
-			fs.appendFile('./test/file.js', 'w');
-			fs.unlink('./test/file.js');
+		helm.standby('./test', ['changingfile'], function(){
+		 	setTimeout(function(){fs.writeFile('./test/file.js', 'w');}, 0);
+			setTimeout(function(){fs.appendFile('./test/file.js', 'wow!');}, 200);
+			setTimeout(function(){fs.unlink('./test/file.js');}, 400);
 		});
 	});
 });
