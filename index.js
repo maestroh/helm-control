@@ -5,6 +5,7 @@ var orchestrator = new Orchestrator();
 var exec = require('child_process').exec;
 var chokidar = require('chokidar');
 var colors = require('colors');
+var path = require('path');
 
 function command(name, dependencies, command){
 	var fn = function(cb){
@@ -31,16 +32,27 @@ function command(name, dependencies, command){
 function execute(commands){
 	orchestrator.start(commands, function(error){
 		if(error !== null)
-			console.error(error);
+			console.error(error.red);
 	})
 }
 
-function standby(path, commands, cb){
-	var watcher = chokidar.watch(path, {
-	  ignored: /[\/\\]\./, 
+function standby(filePaths, commands, cb){
+	var watchPath = [];
+	var ignorePath = [];
+
+
+	filePaths.forEach(function(p){
+		if (p.substring(0,1) === '!')
+			ignorePath.push(path.normalize(p.substring(1,p.length)));
+		else
+			watchPath.push(p);
+	});
+
+	var watcher = chokidar.watch(watchPath, {
+	  ignored: ignorePath, 
 	  persistent: true,
 	  ignoreInitial: true,
-	  alwaysState: true
+	  alwaysStat: false
 	});
 
 	watcher
