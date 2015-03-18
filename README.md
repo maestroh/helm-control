@@ -1,8 +1,8 @@
-## Helm Control 
+# Helm Control 
 
 Task automation for command line tools mixed in with code.
 
-#### Features
+## Features
 * Write tasks for both the command line and code
 * Tasks are run asynchronously unless dependencies are specified
 * Very simple API
@@ -10,7 +10,7 @@ Task automation for command line tools mixed in with code.
 * No need for plugin documentation either
 * The only task runner that makes you feel like a starship captain
 
-#### Documentation
+## Documentation
 
 ##### helm.command(command_name, dependencies, command_line_string)
 
@@ -24,6 +24,8 @@ Add commands that can be executed later.
 
 ##### helm.command(command_name, dependencies, function)
 Same as the previous helm.command, but accepts a function instead of a command line string.
+
+`function` can take in a callback to indicate when the command is finished to allow other commands to continue execution.
 
 ##### helm.engage(commands)
 Executes the commands. Send in a single command or an array of commands.

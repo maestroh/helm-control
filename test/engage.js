@@ -32,4 +32,28 @@ describe('engage', function(){
 
 		helm.engage(['number1', 'number2']);
 	});
+
+	it('should block when a callback is specified', function(done){
+		var blocked = false;
+		helm.command('first', [], function(cb){
+			eventEmitter.emit('blocking', cb);	
+		});
+
+		helm.command('second', ['first'], function(){
+			console.log('waiting');
+
+			eventEmitter.emit('waiting');
+		})
+
+		eventEmitter.on('blocking', function(cb){
+			blocked = true;
+			cb();
+		});
+
+		eventEmitter.on('waiting', function(){
+			if(blocked) done();
+		});
+
+		helm.engage(['second']);
+	});
 });

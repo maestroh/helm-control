@@ -21,9 +21,17 @@ function command(name, dependencies, command){
 						cb(error);
 					});
 			}else{
-				command();
-				console.log(colors.green('%s has finished.'), name);
-				cb();
+				if (command.length){
+					var fn = function(){
+						console.log(colors.green('%s has finished.'), name);		
+						cb();
+					}
+					command(fn);
+				}else{
+					command();
+					cb();
+					console.log(colors.green('%s has finished.'), name);
+				}
 			}
 		}
 	orchestrator.add(name, dependencies, fn);
