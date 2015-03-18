@@ -25,7 +25,7 @@ Add commands that can be executed later.
 ##### helm.command(command_name, dependencies, function)
 Same as the previous helm.command, but accepts a function instead of a command line string.
 
-`function` can take in a callback to indicate when the command is finished to allow other commands to continue execution.
+*function* can take in a callback to indicate when the command is finished to allow other commands to continue execution.
 
 ##### helm.engage(commands)
 Executes the commands. Send in a single command or an array of commands.
@@ -40,15 +40,15 @@ Watches the paths defined and reruns the commands listed.
 
 *callback:* The callback executes after the commands have executed.
 
-#### Usage
+## Usage
 
-##### Running Helm
+#### Running Helm
 There's no need for a command line interface to run Helm. Just create a config file with the command definitions and run it using node.
 
 `node helm.control.js`
 
 
-##### Example
+#### Example
 ```
 var helm = require('helm-control');
 var nodemon = require('nodemon');
